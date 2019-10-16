@@ -10,8 +10,11 @@ def distribution_graph(series, title='distribution'):
 data = pd.read_csv('data/climate.csv')
 
 for key in data.keys()[1:]:
-    print(key)
+    d = data[key]
+
+    print(f"{key} | var: {np.var(d)}, std: {np.std(d)}, mean: {np.mean(d)}")
+    
     # try:
-    distribution_graph(data[key], title=key)
+    distribution_graph(d, title=key)
     # except:
     #     pass
