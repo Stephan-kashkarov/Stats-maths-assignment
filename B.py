@@ -26,10 +26,13 @@ print("\nRainfall:")
 print_data("Rain - part 1", data1['rainfall'])
 print_data("Rain - part 2", data2['rainfall'])
 
-def plot(ax, d, key):
+def raw(ax, d, key):
     s1 = d['year'].to_numpy()
     s2 = d[key].to_numpy()
     ax.plot(s1, s2, ".")
+
+def hist(ax, d, key):
+    ax.hist(d[key].to_numpy())
 
 def qq(ax, d1, key, title):
     ss.probplot(d1[key].to_numpy(), dist="norm", plot=ax)
@@ -37,13 +40,14 @@ def qq(ax, d1, key, title):
 
 
 types = ["temperature", "rainfall"]
-# for key in types:
-#     fig, (ax1, ax2) = plt.subplots(2, 1)
-#     for ax, key2, data in [(ax1, "part 1", data1), (ax2, "part 2", data2)]:
-#         ax.set_title(key2)
-#         plot(ax, data, key)
-#     fig.suptitle(f"{key} - data")
-#     plt.show()
+for f in [hist, raw]:
+    for key in types:
+        fig, (ax1, ax2) = plt.subplots(2, 1)
+        for ax, key2, data in [(ax1, "part 1", data1), (ax2, "part 2", data2)]:
+            ax.set_title(key2)
+            f(ax, data, key)
+        fig.suptitle(f"{key} - {f.__name__}")
+        plt.show()
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
 fig.suptitle(f"Q-Q plots")
 for key, axes in zip(types, [(ax1, ax2), (ax3, ax4)]):
